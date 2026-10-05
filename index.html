@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aplikasi Guru Cerdas - generator prompt soal untuk guru">
+  <title>Aplikasi Guru Cerdas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="logo">AG</div>
+      <div>
+        <h1>Aplikasi Guru Cerdas</h1>
+        <p>Generator prompt soal untuk guru</p>
+      </div>
+    </div>
+    <div class="header-badge">Gratis • Publik • Tanpa API Key</div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">ASISTEN PEMBUAT SOAL</span>
+        <h2>Buat prompt soal yang siap digunakan dengan AI</h2>
+        <p>Isi data pembelajaran, pilih jenis soal, lalu buat prompt. Prompt dapat disalin dan digunakan pada layanan AI pilihan Anda.</p>
+      </div>
+      <div class="hero-icon">✦</div>
+    </section>
+
+    <div class="layout">
+      <section class="card form-card">
+        <div class="card-title">
+          <div>
+            <h3>Data Pembelajaran</h3>
+            <p>Lengkapi informasi agar prompt lebih terarah.</p>
+          </div>
+          <span class="step">01</span>
+        </div>
+
+        <div class="grid-2">
+          <label>
+            Nama Guru
+            <input id="teacher" type="text" placeholder="Contoh: Budi Santoso">
+          </label>
+          <label>
+            Nama Sekolah
+            <input id="school" type="text" placeholder="Contoh: SMP Negeri 1">
+          </label>
+          <label>
+            Mata Pelajaran
+            <input id="subject" type="text" placeholder="Contoh: Matematika">
+          </label>
+          <label>
+            Kelas / Fase
+            <input id="grade" type="text" placeholder="Contoh: VII / Fase D">
+          </label>
+          <label>
+            Materi / Topik
+            <input id="topic" type="text" placeholder="Contoh: Bilangan Rasional">
+          </label>
+          <label>
+            Jumlah Soal
+            <input id="count" type="number" min="1" max="100" value="10">
+          </label>
+        </div>
+
+        <label>
+          Jenis Soal
+          <div class="chips" id="questionTypes">
+            <button type="button" class="chip active" data-value="Pilihan Ganda">Pilihan Ganda</button>
+            <button type="button" class="chip" data-value="Soal Uraian">Soal Uraian</button>
+            <button type="button" class="chip" data-value="Campuran">Campuran</button>
+          </div>
+        </label>
+
+        <div class="grid-2">
+          <label>
+            Tingkat Kesulitan
+            <select id="difficulty">
+              <option>Mudah</option>
+              <option selected>Sedang</option>
+              <option>Sulit</option>
+              <option>Campuran</option>
+            </select>
+          </label>
+          <label>
+            Target Kognitif
+            <select id="cognitive">
+              <option>Memahami dan menerapkan</option>
+              <option>Mengingat dan memahami</option>
+              <option>Menerapkan dan menganalisis</option>
+              <option>Menganalisis, mengevaluasi, dan mencipta</option>
+              <option>Campuran</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="checks">
+          <label class="check"><input id="withKey" type="checkbox" checked><span>Kunci jawaban</span></label>
+          <label class="check"><input id="withExplanation" type="checkbox" checked><span>Pembahasan soal</span></label>
+          <label class="check"><input id="randomize" type="checkbox"><span>Acak variasi soal</span></label>
+          <label class="check"><input id="indonesian" type="checkbox" checked><span>Bahasa Indonesia baku</span></label>
+        </div>
+
+        <label>
+          Instruksi Tambahan
+          <textarea id="extra" rows="5" placeholder="Contoh: Sesuaikan dengan Kurikulum Merdeka. Buat konteks kehidupan sehari-hari. Hindari soal yang ambigu."></textarea>
+        </label>
+
+        <div class="actions">
+          <button class="btn primary" id="generateBtn">✦ Buat Prompt</button>
+          <button class="btn secondary" id="resetBtn">Reset</button>
+        </div>
+      </section>
+
+      <aside class="card info-card">
+        <div class="card-title">
+          <div>
+            <h3>Fitur</h3>
+            <p>Dirancang untuk alur kerja guru.</p>
+          </div>
+        </div>
+        <ul class="feature-list">
+          <li><span>✓</span> Prompt pilihan ganda</li>
+          <li><span>✓</span> Prompt soal uraian</li>
+          <li><span>✓</span> Kunci jawaban</li>
+          <li><span>✓</span> Pembahasan soal</li>
+          <li><span>✓</span> Salin hasil</li>
+          <li><span>✓</span> Cetak / Simpan PDF</li>
+        </ul>
+        <div class="security-note">
+          <strong>🔒 Keamanan</strong>
+          <p>Versi ini tidak menyimpan API key dan tidak memanggil API AI. Website hanya membuat prompt di browser.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="card result-card" id="resultCard">
+      <div class="card-title">
+        <div>
+          <h3>Generated Prompt</h3>
+          <p>Prompt yang dihasilkan dapat disalin ke layanan AI pilihan Anda.</p>
+        </div>
+        <span class="status" id="status">Belum dibuat</span>
+      </div>
+
+      <textarea id="result" class="result" readonly placeholder="Prompt akan muncul di sini..."></textarea>
+
+      <div class="actions result-actions">
+        <button class="btn primary" id="copyBtn">⧉ Salin Hasil</button>
+        <button class="btn secondary" id="printBtn">▣ Cetak / PDF</button>
+        <button class="btn ghost" id="clearBtn">Hapus Hasil</button>
+      </div>
+
+      <div class="print-preview" id="printArea">
+        <h2>Aplikasi Guru Cerdas</h2>
+        <p class="print-meta" id="printMeta"></p>
+        <hr>
+        <pre id="printContent"></pre>
+      </div>
+    </section>
+
+    <footer>
+      <p>Aplikasi Guru Cerdas • Dibuat untuk membantu guru menyusun prompt pembelajaran.</p>
+      <p>Versi statis: aman untuk GitHub Pages dan tidak membutuhkan API key.</p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
